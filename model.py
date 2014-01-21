@@ -35,6 +35,7 @@ class Meteorologia(Base):
     wspd = Column(Float)
     wdir = Column(Float)
     radiation = Column(Float)
+    station_id = Column(ForeignKey('station.id'))
 
 class Oceanografia(Base):
     __tablename__ = 'ocean'
@@ -53,8 +54,9 @@ class Oceanografia(Base):
     bacterian_biomass = Column(Float)
     org_part_carbon = Column(Float)
     org_diss_carbon = Column(Float)
+    station_id = Column(ForeignKey('station.id'))
 
-class Coleta(Base):
+class Estacao(Base):
     __tablename__ = 'station'
 
     """Oceanographic Parameters"""
@@ -64,17 +66,24 @@ class Coleta(Base):
     local_depth = Column(Float)
     coord = GeometryColumn(Point(2))
     capture_type = Column(Unicode)
-    ocean = Column(ForeignKey('ocean.id'))
-    meteo = Column(ForeignKey('meteo.id'))
+    meteo = relationship("Meteorologia", uselist=False, backref="station")
+    ocean = relationship("Oceanografia", uselist=False, backref="station")
+    profile = relationship("Profile", uselist=False, backref="station")
+    biometry = relationship("BiometriaIctiofauna", uselist=False, backref="station")
+    cruise_id = Column(ForeignKey('cruise.id'))
 
+
+
+# PRECISO FALAR COM O ALEXANDRE DESSA RELACAO #########################################
 class BiometriaIctiofauna(Base):
     __tablename__ = 'biometry'
 
      """Biometry of Ictiofauna"""
     weight = Column(Float)
     length = Column(Float)
-    station = Column(ForeignKey('station.id'))
-    organism = Column(ForeignKey('organism.id'))
+    stomach = relationship("ConteudoEstomacal", uselist=False, backref="biometry")
+    station_id = Column(ForeignKey('station.id'))
+    organism_id = Column(ForeignKey('organism.id'))
 
 class Organismo(Base):
     __tablename__ = 'organism'
@@ -83,34 +92,33 @@ class Organismo(Base):
     name = Column(Unicode)
     family = Column(Unicode)
     description = Column(Unicode)
-    organism = Column(ForeignKey('organism.id'))
-
-class Familia(Base):
-    __tablename__ = 'family'
-
-    """Family"""
-    name = Column(Unicode)
+    biometry = relationship("BiometriaIctiofauna", uselist=False, backref="organism")
 
 class ConteudoEstomacal(Base):
     __tablename__ = 'stomach'
 
     """Stomach contents"""
     contents = Column(Unicode)
-    biometry = Column(ForeignKey('biometry.id'))
-    organism = Column(ForeignKey('organism.id'))
+    biometry_id = Column(ForeignKey('biometry.id'))
+    
+#######################################################################################
 
-class Project(Base):
-    __tablename__ = 'project'
-    """Project at which data was acquired"""
-    id = Column(Integer, primary_key=True)
-    name = Column(Unicode)
-    institution = Column(ForeignKey('institution.id'))
 
 class Institution(Base):
     __tablename__ = 'institution'
     """Institution responsible for data acquisition"""
     id = Column(Integer, primary_key=True)
     name = Column(Unicode)
+    cruise = relationship("Cruise", backref="institution")
+    project = relationship("Project", backref="institution")
+
+class Project(Base):
+    __tablename__ = 'project'
+    """Project at which data was acquired"""
+    id = Column(Integer, primary_key=True)
+    name = Column(Unicode)
+    cruise = relationship("Cruise", backref="project")
+    institution_id = Column(ForeignKey('institution.id'))
 
 class Cruise(Base):
     """Each Ship Comission"""
@@ -120,12 +128,11 @@ class Cruise(Base):
     cruise_name = Column(Unicode) 
     platform_name = Column(Unicode)
     platform_type = Column(Unicode)
-    project_name = Column(Unicode)
-    source_db = Column(Unicode)
-    source_db_id = Column(Unicode)
-    institution = Column(ForeignKey('institution.id'))
     start_date = Column(Date)
     end_date = Column(Date)
+    station = relationship("Estacao", backref="Station")
+    institution_id = Column(ForeignKey('institution.id'))
+    project_id = Column(ForeignKey('project.id'))
 
 
 class Profile(Base):
@@ -133,15 +140,14 @@ class Profile(Base):
     __tablename__ = 'profile'
 
     id = Column(Integer, primary_key=True)
-    coord = GeometryColumn(Point(2))
-    date = Column(Date)
     time = Column(Time)
     local_depth = Column(Float)
-    cruise = Column(ForeignKey('cruise.id'))
     origin_header = Column(Unicode)
     filename = Column(Unicode)
     created = Column(DateTime, default=dt.datetime.now())
-    
+    data = relationship("ProfileData", backref="profile")
+    station_id = Column(ForeignKey('station.id'))
+
 
 class ProfileData(Base):
     """Data Table"""
@@ -151,10 +157,8 @@ class ProfileData(Base):
     values = Column(postgresql.ARRAY(Float))
     depths = Column(postgresql.ARRAY(Float))
     status = Column(Unicode) # raw, qualified or filtered
-    variable = Column(ForeignKey('variable.id'))
     profile_id = Column(ForeignKey('profile.id'))
     profile = relationship("Profile", backref=backref('data', order_by=id))
-    varname = relationship("Variable", backref=backref('variable', order_by=id))
 
 
 GeometryDDL(Profile.__table__)
