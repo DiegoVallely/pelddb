@@ -1,5 +1,3 @@
-
-<!DOCTYPE html>
 <html class="no-js" lang="{{=T.accepted_language or 'en'}}">
   <head>
     <meta charset="utf-8">
@@ -8,6 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <title></title>
 
     <!-- Le styles -->
 
@@ -40,59 +39,62 @@ response.files.append(URL('static','css/main.css'))
     <!--[if lt IE 9]>
       <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
-
-
   </head>
 
   <body>
 
-
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
           </button>
-          <a class="brand pull-left" href="{{=URL('default','index')}}">{{=response.title}}</a>
-            <ul id="navbar" class="nav pull-right">
-              {{='auth' in globals() and auth.navbar(separators=(' ',' | ',' '))}}
-<!--               <li><a href="{{=URL('default','user',args='login')}}">Login</a></li>
-              <li><a href="{{=URL('default','user',args='register')}}">Register</a></li> -->
-            </ul>
-          {{if auth.is_logged_in():}}  
-          <div class="nav-collapse">
-            {{is_mobile=request.user_agent().is_mobile}}
-            {{if response.menu:}}
-            {{=MENU(response.menu, _class='mobile-menu nav' if is_mobile else 'nav',mobile=is_mobile,li_class='dropdown',ul_class='dropdown-menu')}}
-            {{pass}}
-          </div><!--/.nav-collapse -->
-          {{pass}}
+          <a class="navbar-brand" href="#">Project name</a>
         </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../navbar/">Default</a></li>
+            <li><a href="../navbar-static-top/">Static top</a></li>
+            <li class="active"><a href="./">Fixed top</a></li>
+            {{='auth' in globals() and auth.navbar(separators=(' ',' | ',' '))}}
+          </ul>
+        </div><!--/.nav-collapse -->
       </div>
     </div>
-{{block carousel}}
-    <!-- Carousel
-    ================================================== -->
-    <div id="myCarousel" class="carousel slide">
-      <div class="carousel-inner">
-        <div class="item active">
-          <img src="{{=URL('static','images', args='estrada-verde-wallpaper.jpg')}}" alt="">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Example headline.</h1>
-              <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              <a class="btn btn-large btn-primary" href="{{=URL('user', args='register')}}">Sign up today</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div><!-- /.carousel -->
-{{end}}
-    <div class="container">
-      
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      {{include}}
 
-      <hr>
+    <div class="container">
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h1>Navbar example</h1>
+        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+        <p>To see the difference between static and fixed top navbars, just scroll.</p>
+        <p>
+          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+        </p>
+        {{include}}
+      </div>
 
       <!-- FOOTER -->
       <footer>
@@ -103,36 +105,35 @@ response.files.append(URL('static','css/main.css'))
     </div> <!-- /container -->
 
     <!-- web2py -->
-  <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
-  <script src="{{=URL('static','js/web2py.js')}}"></script>
+    <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
+    <script src="{{=URL('static','js/web2py.js')}}"></script>
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{{=URL('static', 'js', args='jquery.js')}}"></script>
-    <script src="{{=URL('static', 'js', args='bootstrap-transition.js')}}"></script>
-    <script src="{{=URL('static', 'js', args='bootstrap-alert.js')}}"></script>
-    <script src="{{=URL('static', 'js', args='bootstrap-modal.js')}}"></script>
-    <script src="{{=URL('static', 'js', args='bootstrap-dropdown.js')}}"></script>
-    <script src="{{=URL('static', 'js', args='bootstrap-scrollspy.js')}}"></script>
-    <script src="{{=URL('static', 'js', args='bootstrap-tab.js')}}"></script>
-    <script src="{{=URL('static', 'js', args='bootstrap-tooltip.js')}}"></script>
-    <script src="{{=URL('static', 'js', args='bootstrap-popover.js')}}"></script>
-    <script src="{{=URL('static', 'js', args='bootstrap-button.js')}}"></script>
-    <script src="{{=URL('static', 'js', args='bootstrap-collapse.js')}}"></script>
-    <script src="{{=URL('static', 'js', args='bootstrap-carousel.js')}}"></script>
-    <script src="{{=URL('static', 'js', args='bootstrap-typeahead.js')}}"></script>
-    <script src="{{=URL('static', 'js', args='holder.js')}}"></script>
+      <!-- Le javascript
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="{{=URL('static', 'js', args='jquery.js')}}"></script>
+      <script src="{{=URL('static', 'js', args='bootstrap-transition.js')}}"></script>
+      <script src="{{=URL('static', 'js', args='bootstrap-alert.js')}}"></script>
+      <script src="{{=URL('static', 'js', args='bootstrap-modal.js')}}"></script>
+      <script src="{{=URL('static', 'js', args='bootstrap-dropdown.js')}}"></script>
+      <script src="{{=URL('static', 'js', args='bootstrap-scrollspy.js')}}"></script>
+      <script src="{{=URL('static', 'js', args='bootstrap-tab.js')}}"></script>
+      <script src="{{=URL('static', 'js', args='bootstrap-tooltip.js')}}"></script>
+      <script src="{{=URL('static', 'js', args='bootstrap-popover.js')}}"></script>
+      <script src="{{=URL('static', 'js', args='bootstrap-button.js')}}"></script>
+      <script src="{{=URL('static', 'js', args='bootstrap-collapse.js')}}"></script>
+      <script src="{{=URL('static', 'js', args='bootstrap-carousel.js')}}"></script>
+      <script src="{{=URL('static', 'js', args='bootstrap-typeahead.js')}}"></script>
+      <script src="{{=URL('static', 'js', args='holder.js')}}"></script>
 
-    <script>
-      !function ($) {
-        $(function(){
-          // carousel demo
-          $('#myCarousel').carousel()
+      <script>
+        !function ($) {
+          $(function(){
+            // carousel demo
+            $('#myCarousel').carousel()
         })
       }(window.jQuery)
     </script>
     <script src="../assets/js/holder/holder.js"></script>
-
   </body>
 </html>
