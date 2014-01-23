@@ -34,8 +34,10 @@ class Station(Base):
     local_sea = Column(Unicode) # i.e. inner or outer sea
     spot_name = Column(Unicode) # i.e. saco do cardeiro, enseada do forno, etc
     name = Column(Unicode)
-    date = Column(Date)
-    time = Column(Time)
+    start_date = Column(Date)
+    end_date = Column(Date)
+    start_time = Column(Time)
+    end_time = Column(Time)
     local_depth = Column(Float)
     lon = Column(Float)
     lat = Column(Float)
@@ -62,6 +64,8 @@ class Oceanography(Base):
     __tablename__ = 'ocean'
     """Oceanographic Parameters"""
     id = Column(Integer, primary_key=True)
+    date = Column(Date)
+    time = Column(Time)
     depth = Column(Float)
     temp = Column(Float)
     salt = Column(Float)
