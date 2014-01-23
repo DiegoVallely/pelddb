@@ -15,7 +15,7 @@ S.session.add(peld)
 S.session.commit()
 
 		# INSERTING CRUISES
-pilot = Cruise(name='PILOT', platform_type='Boat', platform_name='Leg',
+peld = Cruise(name='PELD', platform_type='Estação Fixa', platform_name='Tidbit',
 	           start_date=dt.date(2014, 01, 01), end_date=dt.date(2014, 01, 10), 
 	           institution_id=ieapm.id, project_id=peld.id)
 S.session.add(pilot)
@@ -23,8 +23,8 @@ S.session.commit()
 
 
 			# INSERTING STATIONS
-s1 = Station(date=dt.date(2014, 01, 01), time=dt.time(10, 30, 0), local_depth=100., 
-	               lon=-42.0, lat=-23.1, capture_type='Arrasto', cruise_id=pilot.id)
+ptcab = Station(local_sea="Mar de Fora", spot_name="Ponta da Cabeça", date=dt.date(2014, 01, 01), time=dt.time(10, 30, 0), local_depth=100., 
+	               lon=-42.0, lat=-23.1, capture_type='Arrasto', cruise_id=peld.id)
 S.session.add(s1)
 S.session.commit()
 				
@@ -34,46 +34,6 @@ o1 = Oceanography(depth=10., temp=23.4, salt=36.78, chla=0.5564, feofitina=6.7,
 	              org_part_carbon=None, org_diss_carbon=0.000342, station_id=s1.id)
 S.session.add(o1)
 S.session.commit()
-
-				# INSERTING METEOROLOGICAL PARAMETERS
-m1 = Meteorology(wspd=8.5, wdir=82., radiation=None, station_id=s1.id)
-S.session.add(m1)
-S.session.commit()
-
-s2 = Station(date=dt.date(2014, 01, 01), time=dt.time(11, 30, 0), local_depth=120., 
-	               lon=-42.0, lat=-23.1, capture_type='Arrasto', cruise_id=pilot.id)
-S.session.add(s2)
-S.session.commit()
-
-
-peld1 = Cruise(name='PELD1', platform_type='Boat', platform_name='Leg',
-	           start_date=dt.date(2014, 02, 01), end_date=dt.date(2014, 02, 10), 
-	           institution_id=ieapm.id, project_id=peld.id)
-S.session.add(peld1)
-S.session.commit()
-
-
-	# INSERTING PROJECT
-inct = Project(name='INCT', institution_id=ieapm.id)
-S.session.add(inct)
-S.session.commit()
-
-		# INSERTING CRUISES
-inct1 = Cruise(name='INCT1', platform_type='Ship', platform_name='Diadorim',
-	           start_date=dt.date(2013, 01, 01), end_date=dt.date(2013, 01, 10), 
-	           institution_id=ieapm.id, project_id=inct.id)
-S.session.add(inct1)
-S.session.commit()
-
-inct2 = Cruise(name='INCT2', platform_type='Ship', platform_name='Diadorim',
-	           start_date=dt.date(2013, 02, 01), end_date=dt.date(2013, 02, 10), 
-	           institution_id=ieapm.id, project_id=inct.id)
-S.session.add(inct2)
-S.session.commit()
-
-
-
-
 
 
 S.session.commit()

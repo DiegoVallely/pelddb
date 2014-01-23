@@ -27,7 +27,6 @@ class SeaPolygon(Base):
 
 
 
-
 class Station(Base):
     __tablename__ = 'station'
     """Oceanographic Parameters"""
