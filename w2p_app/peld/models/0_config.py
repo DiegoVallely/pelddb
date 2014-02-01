@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 from gluon.storage import Storage
+from gluon.dal import DAL, Field, geoPoint, geoLine, geoPolygon
 
 config = Storage(db=Storage(),
 	auth=Storage(settings=Storage(extra_fields=Storage()),
@@ -16,7 +17,8 @@ config = Storage(db=Storage(),
 # The database connection
 # The string connection id needed change when site be deployed
 # need create postgres db without user and password for now
-config.db.uri = "postgres://username:password@localhost/peld" 
+config.db.uri = "postgres://pelddb:h4ck3r@localhost/pelddb"
+# config.db.uri = "sqlite://pelddb.sqlite" 
 # Check reserved
 config.db.check_reserved = ['all']
 

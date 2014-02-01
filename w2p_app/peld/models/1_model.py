@@ -5,7 +5,6 @@ track_changes(True)
 from gluon.contrib.markdown.markdown2 import markdown
 from gluon.tools import Auth, Service, Crud
 
-from gluon.dal import DAL, Field, geoPoint, geoLine, geoPolygon
 
 
 service = Service()

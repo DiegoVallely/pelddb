@@ -5,7 +5,7 @@ SeaPolygon = db.define_table("seapolygon",
 	Field("name"),
 	Field("poly", "geometry()"))
 
-SeaPolygon.insert(poly=geoPolygon((2)))
+SeaPolygon.insert(poly=geoPolygon((1,1,2)))
 
 
 Station = db.define_table("station",
