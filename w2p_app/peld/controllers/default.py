@@ -1,6 +1,6 @@
 
 def index():
-	form = SQLFORM.smartgrid(Station)
+	form = SQLFORM.grid(SeaPolygon)
 	return dict(form=form)
 
 def user():

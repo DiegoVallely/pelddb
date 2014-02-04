@@ -1,7 +1,7 @@
 <html class="no-js" lang="{{=T.accepted_language or 'en'}}">
   <head>
     <meta charset="utf-8">
-    <title>Pathrider</title>
+    <title>Peld</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -11,7 +11,8 @@
     <!-- Le styles -->
 
 
-   <script src="{{=URL('static', 'js', args='bootstrap.js')}}"></script>
+   <script src="{{=URL('static', 'dist/js', args='bootstrap.js')}}"></script>
+   <script src="{{=URL('static', 'dist/js', args='bootstrap.min.js')}}"></script>
     <script src="{{=URL('static', 'js', args='angular.js')}}"></script>
     <script src="{{=URL('static','js', args='modernizr.custom.js')}}"></script>
 
@@ -20,9 +21,11 @@
   <!-- include stylesheets -->
 
     <link href="{{=URL('static','css', args='bootstrap-responsive.css')}}" rel="stylesheet">
+    <link href="{{=URL('static','dist/css', args='bootstrap-theme.css')}}" rel="stylesheet">
+
 
 {{
-response.files.append(URL('static','css/bootstrap.css'))
+response.files.append(URL('static','dist/css/bootstrap.css'))
 response.files.append(URL('static','css/main.css'))
 }}
 
@@ -44,6 +47,7 @@ response.files.append(URL('static','css/main.css'))
   <body>
 
     <!-- Fixed navbar -->
+    {{block menu}}
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -53,13 +57,13 @@ response.files.append(URL('static','css/main.css'))
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">{{=T(response.title)}}</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about">Sobre</a></li>
+            <li><a href="#contact">Contato</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -82,24 +86,30 @@ response.files.append(URL('static','css/main.css'))
         </div><!--/.nav-collapse -->
       </div>
     </div>
+    {{end}}
 
     <div class="container">
 
       <!-- Main component for a primary marketing message or call to action -->
+      {{block jumbo}}
       <div class="jumbotron">
-        <h1>Navbar example</h1>
-        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+        <h1>PELD</h1>
+        <p></p>
         <p>To see the difference between static and fixed top navbars, just scroll.</p>
         <p>
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">Login &raquo;</a>
         </p>
-        {{include}}
+        
       </div>
+      {{end}}
+
+
+      {{include}}
 
       <!-- FOOTER -->
       <footer>
         <p class="pull-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2013 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        <p>&copy; 2014 IEAPM, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
       </footer>
 
     </div> <!-- /container -->
