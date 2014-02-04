@@ -28,6 +28,21 @@ class ReadTidbit(object):
             self.temps.append(temp)
 
 
+def get_or_create(S, table, **kwargs):
+        """ Generic method to get some data from db, if does not exists yet, creates a new record."""
+        instance = S.session.query(table).filter_by(**kwargs).first()
+        
+        if not instance:
+            instance = table(**kwargs)
+            S.session.add(instance)
+            print "NEW %s instance created!" %(table)
+            S.session.commit()
+        else:
+            print "Instance of %s EXISTS" %(table)
+        return instance
+
+
+####################################################################################
 
 # EXAMPLE OF TIDBIT DATA INSERTION WORKFLOW
 peld_start_date = dt.date(2013, 10, 1)
@@ -38,39 +53,28 @@ tidbit = ReadTidbit("data_samples/dados_tidbit_pontadacabeca_nov-09_a_set-11")
 
 # let's assume that institution, project and cruise were not yet inserted in the database
 # INSERTING INSTITUTION
-ieapm = Institution(name='IEAPM')
-S.session.add(ieapm)
-S.session.commit()
+ieapm = get_or_create(S, Institution, name="IEAPM")
 
     # INSERTING PROJECT
-peld = Project(name='PELD', institution_id=ieapm.id)
-S.session.add(peld)
-S.session.commit()
+peld = get_or_create(S, Project, name='PELD', institution_id=ieapm.id)
 
         # INSERTING CRUISE
-rede_peld = Cruise(name=u'REDE PELD', platform_type=u'Estação Fixa', platform_name=u'Tidbit',
-                   start_date=peld_start_date, end_date=peld_end_date, 
-                   institution_id=ieapm.id, project_id=peld.id)
-S.session.add(rede_peld)
-S.session.commit()
+rede_peld = get_or_create(S, Cruise, name=u'REDE PELD', platform_type=u'Estação Fixa', 
+                   platform_name=u'Tidbit', start_date=peld_start_date, 
+                   end_date=peld_end_date, institution_id=ieapm.id, project_id=peld.id)
 
             # INSERTING STATION
-ptcabeca = Station(local_sea="Mar de Fora", spot_name=u"Ponta da Cabeça", 
+ptcabeca = get_or_create(S, Station, local_sea="Mar de Fora", spot_name=u"Ponta da Cabeça", 
                    start_date=tidbit.dates[0], start_time=tidbit.times[0],
                    end_date=tidbit.dates[-1], end_time=tidbit.times[-1], local_depth=8., 
                    lon=-42.0, lat=-23.1, capture_type='Sensor de Temperatura', 
                    cruise_id=rede_peld.id)
-S.session.add(ptcabeca)
-S.session.commit()
                 
                 # INSERTING OCEANOGRAPHIC PARAMETERS
-
 # and now we insert the entire time series sample by sample
+print "\n\n Inserting tidbit data sample ....."
 for sample in range(len(tidbit.temps)):
-    s = Oceanography(date=tidbit.dates[sample], time=tidbit.times[sample], 
+    s = get_or_create(S, Oceanography, date=tidbit.dates[sample], time=tidbit.times[sample], 
                      depth=5., temp=tidbit.temps[sample], station_id=ptcabeca.id)
-    S.session.add(s)
-    S.session.commit()
-
 
 S.session.commit()

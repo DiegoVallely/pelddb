@@ -40,7 +40,7 @@ class Station(Base):
     end_time = Column(Time)
     local_depth = Column(Float)
     lon = Column(Float)
-    lat = Column(Float)
+    lat = Column(Float)  
     capture_type = Column(Unicode)
     cruise_id = Column(ForeignKey('cruise.id'))
     meteos = relationship("Meteorology", backref="station")
