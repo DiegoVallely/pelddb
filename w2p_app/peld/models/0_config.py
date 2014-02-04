@@ -17,7 +17,7 @@ config = Storage(db=Storage(),
 # The database connection
 # The string connection id needed change when site be deployed
 # need create postgres db without user and password for now
-config.db.uri = "postgres://pelddb:h4ck3r@localhost/pelddb"
+config.db.uri = "postgres://peld:h4ck3r@localhost:5432/pelddb"
 # config.db.uri = "sqlite://pelddb.sqlite" 
 # Check reserved
 config.db.check_reserved = ['all']

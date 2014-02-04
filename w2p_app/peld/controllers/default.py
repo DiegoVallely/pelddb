@@ -1,6 +1,7 @@
 
 def index():
-	return dict()
+	form = SQLFORM.grid(SeaPolygon)
+	return dict(form=form)
 
 def user():
 	return dict(form=auth())
