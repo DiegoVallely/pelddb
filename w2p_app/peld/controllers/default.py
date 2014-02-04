@@ -1,6 +1,7 @@
 
 def index():
-	return dict()
+	form = SQLFORM.smartgrid(Station)
+	return dict(form=form)
 
 def user():
 	return dict(form=auth())
