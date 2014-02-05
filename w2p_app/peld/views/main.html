@@ -27,6 +27,7 @@
 {{
 response.files.append(URL('static','dist/css/bootstrap.css'))
 response.files.append(URL('static','css/main.css'))
+response.files.append(URL('static', 'css/web2py.css'))
 }}
 
     {{include 'web2py_ajax.html'}}
@@ -97,7 +98,7 @@ response.files.append(URL('static','css/main.css'))
         <p></p>
         <p>To see the difference between static and fixed top navbars, just scroll.</p>
         <p>
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">Login &raquo;</a>
+          <a class="btn btn-lg btn-primary" href="{{=URL('user', args='login')}}" role="button">Login &raquo;</a>
         </p>
         
       </div>
