@@ -1,2 +1,86 @@
 {{extend 'main.html'}}
 
+<style type="text/css">
+#down_menu{
+  padding: 60px;
+}
+</style>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{=URL('static', 'dist/css', args='bootstrap.min.css')}}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{=URL('static', 'dist/css', args='signin.css')}}" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+  {{block menu}}
+  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">{{=T(response.title)}}</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="{{=URL('index')}}">Home</a></li>
+          <li><a href="#about">Sobre</a></li>
+          <li><a href="#contact">Contato</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li class="divider"></li>
+              <li class="dropdown-header">Nav header</li>
+              <li><a href="#">Separated link</a></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="../navbar/">Default</a></li>
+          <li><a href="../navbar-static-top/">Static top</a></li>
+          <li class="active"><a href="./">Fixed top</a></li>
+          {{='auth' in globals() and auth.navbar(separators=(' ',' | ',' '))}}
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+  {{end}}
+
+
+{{block jumbo}}
+{{end}}
+<div class="row">
+  <div id="down_menu">
+    <div class="form-signin">
+      <h2>{{=T( request.args(0).replace('_',' ').capitalize() )}}</h2>
+      {{=form}}
+      {{if request.args(0)=='login':}}
+        {{if not 'register' in auth.settings.actions_disabled:}}
+          <br/><a href="{{=URL(args='register')}}"><button class="btn btn-default">{{=T("Register")}}</button></a>
+        {{pass}}
+        {{if not 'request_reset_password' in auth.settings.actions_disabled:}}
+          <br/>
+          <a href="{{=URL(args='request_reset_password')}}"><button class="btn btn-default">{{=T("Lost Password")}}</button></a>
+        {{pass}}
+      {{pass}}
+    </div>
+  </div>
+</div>
+

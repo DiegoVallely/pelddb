@@ -1,7 +1,92 @@
 
+
+def custom_button(form):
+    # inputname = form.elements(_type="texto")[0]
+    # inputname["_required"] = "required"
+    # inputname["_style"] = "background:#FA4A81"
+
+    submit_button = form.elements(_type="submit")[0]
+    submit_button["_class"] = "btn btn-primary"
+    return form
+
+def custom_form(form):
+    inputemail = form.elements(_class="string")[0]
+    inputemail['_class'] = "form-control"
+
+    inputpasswd = form.elements(_class="password")[0]
+    inputpasswd["_class"] = "form-control"
+
+    # labelcheckbox = form.elements(_label="checkbox")
+    # labelcheckbox["_class"] = "checkbox"
+
+    return form
+
 def index():
-	form = SQLFORM.grid(SeaPolygon)
-	return dict(form=form)
+
+    form = SQLFORM.grid(SeaPolygon)
+    return dict(form=form)
 
 def user():
-	return dict(form=auth())
+
+    forms = auth()
+    inputemail = forms.elements(_class="string")[0]
+    inputemail['_class'] = "form-control"
+
+    inputpasswd = forms.elements(_class="password")[0]
+    inputpasswd["_class"] = "form-control"
+
+    submit_button = forms.elements(_type="submit")[0]
+    submit_button["_class"] = "btn btn-primary btn-block" 
+
+    email_label = forms.elements("label")[0]
+    email_label["_style"] = "display:none;"
+
+    email_label2 = forms.elements("label")[1]
+    email_label2["_style"] = "display:none;"
+
+    email_label3 = forms.elements("label")[2]
+    # email_label3[""] = "Remember Me"
+    email_label3["_class"] = "checkbox"
+
+
+    # for form_style in forms.elements("form"):
+    #     form_style["_class"] = "form-signin"
+
+    placeholder = ["Email", "Password"]
+
+    for inputplace in (forms.elements(_type="text"):
+        inputplace["_placeholder"] = placeholder[inputplace]
+
+    # placemail = forms.elements(_type="text")[0]
+    # placemail["_placeholder"] = "Email"
+    # placepwd = forms.elements(_type="password")[0]
+    # placepwd["_placeholder"] = "Password"
+
+    # register_button = forms.add_button(T('Register'), 
+    #   URL(args='register', 
+    #       vars={'_next': request.vars._next} \
+    #       if request.vars._next else None),
+    #       _class='btn btn-primary')
+    
+    if forms.accepts(request.vars, session, formname=None):
+        redirect(URL('perfil'))
+        print "ok"
+
+    elif forms.errors:
+        print "error"
+
+    # form = custom_button(forms)
+    # forms = custom_form(forms)
+
+    return dict(form=forms)
+
+
+def login():
+
+    form = auth.login()
+
+    return dict(form=form)
+
+
+def perfil():
+    return dict()
