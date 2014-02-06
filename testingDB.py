@@ -47,7 +47,7 @@ rede_peld = get_or_create(S, Cruise, name=u'REDE PELD', platform_type=u'Estaçã
 ptcabeca = get_or_create(S, Station, local_sea="Mar de Fora", spot_name=u"Ponta da Cabeça", 
                    start_date=tidbit.dates[0], start_time=tidbit.times[0],
                    end_date=peld_end_date, end_time=None, local_depth=8., 
-                   lon=-42.0356, lat=-22.9780, capture_type='Sensor de Temperatura', 
+                   lon=-42.0381, lat=-22.9770, capture_type='Sensor de Temperatura', 
                    cruise_id=rede_peld.id)
                 
                 # INSERTING OCEANOGRAPHIC PARAMETERS
