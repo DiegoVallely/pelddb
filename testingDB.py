@@ -67,6 +67,8 @@ date, spot, station, temp, salt, oxig, fosfate, nitrate, amonium, silicate, chla
 
     # INSERTING PROJECT: for old data that has unknown info
 antigos = get_or_create(S, Project, name='ANTIGOS', institution_id=ieapm.id)
+antigos_cruise = get_or_create(S, Cruise, name='ANTIGOS', institution_id=ieapm.id, 
+                               project_id=antigos.id)
 
 for s in range(len(spot)):
     for key, values in zip(spot_dict.keys(), spot_dict.values()):
@@ -76,7 +78,8 @@ for s in range(len(spot)):
                 lat = spot_dict[key][2]
 
     st = get_or_create(S, Station, local_sea="Mar de Dentro", spot_name=spot[s], 
-                       name=str(station[s]), lon=lon, lat=lat, capture_type="Biology")
+                       name=str(station[s]), lon=lon, lat=lat, capture_type="Biology", 
+                       cruise_id=antigos_cruise.id)
 
     d = get_or_create(S, Oceanography, date=date[s], temp=temp[s], salt=salt[s], 
                       chla=chla[s], oxigen=oxig[s], fosfate=fosfate[s], nitrate=nitrate[s], 
