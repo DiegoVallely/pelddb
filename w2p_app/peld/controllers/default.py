@@ -22,40 +22,35 @@ def custom_form(form):
     return form
 
 def index():
-
-    form = SQLFORM.grid(SeaPolygon)
-    return dict(form=form)
+    """Landing Page"""
+    return dict()
 
 def user():
 
     forms = auth()
-    inputemail = forms.elements(_class="string")[0]
-    inputemail['_class'] = "form-control"
+    # inputemail = forms.elements(_class="string")[0]
+    # inputemail['_class'] = "form-control"
 
-    inputpasswd = forms.elements(_class="password")[0]
-    inputpasswd["_class"] = "form-control"
+    # inputpasswd = forms.elements(_class="password")[0]
+    # inputpasswd["_class"] = "form-control"
 
     submit_button = forms.elements(_type="submit")[0]
     submit_button["_class"] = "btn btn-primary btn-block" 
 
-    email_label = forms.elements("label")[0]
-    email_label["_style"] = "display:none;"
+    # email_label = forms.elements("label")[0]
+    # email_label["_style"] = "display:none;"
 
-    email_label2 = forms.elements("label")[1]
-    email_label2["_style"] = "display:none;"
+    # email_label2 = forms.elements("label")[1]
+    # email_label2["_style"] = "display:none;"
 
-    email_label3 = forms.elements("label")[2]
-    # email_label3[""] = "Remember Me"
-    email_label3["_class"] = "checkbox"
+    # email_label3 = forms.elements("label")[2]
+    # # email_label3[""] = "Remember Me"
+    # email_label3["_class"] = "checkbox"
 
 
     # for form_style in forms.elements("form"):
     #     form_style["_class"] = "form-signin"
 
-    placeholder = ["Email", "Password"]
-
-    for inputplace in (forms.elements(_type="text"):
-        inputplace["_placeholder"] = placeholder[inputplace]
 
     # placemail = forms.elements(_type="text")[0]
     # placemail["_placeholder"] = "Email"
@@ -68,15 +63,6 @@ def user():
     #       if request.vars._next else None),
     #       _class='btn btn-primary')
     
-    if forms.accepts(request.vars, session, formname=None):
-        redirect(URL('perfil'))
-        print "ok"
-
-    elif forms.errors:
-        print "error"
-
-    # form = custom_button(forms)
-    # forms = custom_form(forms)
 
     return dict(form=forms)
 

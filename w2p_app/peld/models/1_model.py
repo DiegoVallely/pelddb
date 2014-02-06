@@ -28,8 +28,16 @@ auth.settings.registration_requires_approval = \
 auth.settings.login_after_registration = \
 	config.auth.settings.login_after_registration
 
+auth.settings.login_next = config.auth.settings.login_next
+
 # auth.messages.registration_successful = \
 	# config.auth.messages.registration_successful
 
 
 auth.define_tables()
+
+
+User = db.auth_user
+
+def name_of(user):
+	return '%(first_name)s %(last_name)s' % user
