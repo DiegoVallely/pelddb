@@ -3,7 +3,7 @@
 import datetime as dt
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Float, Date, Time, DateTime, ForeignKey, Boolean, Unicode, Sequence, Text, Table
+from sqlalchemy import Column, Integer, String, Float, Date, Time, DateTime, ForeignKey, Boolean, Unicode, Sequence, Text, Table, BLOB
 from sqlalchemy import create_engine 
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.orm import relationship, backref
@@ -18,6 +18,8 @@ else:
 
 Base = declarative_base()
 
+
+
 class SeaPolygon(Base):
     __tablename__ = 'sea'
     """Sea coordinates in the globe"""
@@ -31,8 +33,8 @@ class Station(Base):
     __tablename__ = 'station'
     """Oceanographic Parameters"""
     id = Column(Integer, primary_key=True)
-    local_sea = Column(Unicode) # i.e. inner or outer sea
     spot_name = Column(Unicode) # i.e. saco do cardeiro, enseada do forno, etc
+    local_sea = Column(Unicode) # i.e. inner or outer sea
     name = Column(Unicode)
     start_date = Column(Date)
     end_date = Column(Date)
@@ -75,13 +77,18 @@ class Oceanography(Base):
     bacterian_prod = Column(Float)
     bacterian_biomass = Column(Float)
     org_part_carbon = Column(Float)
-    org_diss_carbon = Column(Float)
+    oxigen = Column(Float)
+    fosfate = Column(Float)
+    nitrate = Column(Float)
+    amonium = Column(Float)
+    silicate = Column(Float)
     station_id = Column(ForeignKey('station.id'))
 
 class Image(Base):
     __tablename__ = 'image'
     """JPG Images"""
     id = Column(Integer, primary_key=True)
+    image_file = Column(Unicode) 
     pathname = Column(Unicode)
     filename = Column(Unicode)
     station_id = Column(ForeignKey('station.id'))

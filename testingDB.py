@@ -1,32 +1,8 @@
 #! -*- coding: utf-8 -*- 
 from model import *
 from control import *
-
-class ReadTidbit(object):
-    """docstring for ReadTidbit"""
-    def __init__(self, filename):
-        super(ReadTidbit, self).__init__()
-        self.filename = filename
-        f = open(filename)
-        self.dates, self.times, self.temps = [], [], []
-        for line in f.readlines():
-            # date
-            month = int(line.split("/")[0])
-            day   = int(line.split("/")[1])
-            year  = int(line.split("/")[2][:4])
-            date  = dt.datetime(year, month, day)
-            # time
-            hour   = int(line.split(" ")[2].split(":")[0])
-            minute = int(line.split(" ")[2].split(":")[1])
-            time   = dt.time(hour, minute)
-            # temperature
-            temp = line.split(" ")[-1]
-            temp = float(temp.split(",")[0] + "." + temp.split(",")[1][0])
-
-            self.dates.append(date)
-            self.times.append(time)
-            self.temps.append(temp)
-
+from read_data import *
+from dictionaries import spot_dict
 
 def get_or_create(S, table, **kwargs):
         """ Generic method to get some data from db, if does not exists yet, creates a new record."""
@@ -43,6 +19,10 @@ def get_or_create(S, table, **kwargs):
 
 
 ####################################################################################
+
+# bbox for peld area
+# m1 = Basemap(projection='cyl', llcrnrlon=-42.2, urcrnrlon=-41.7,
+                    # llcrnrlat=-23.144, urcrnrlat=-22.5, lat_ts=0, resolution='f')
 
 # EXAMPLE OF TIDBIT DATA INSERTION WORKFLOW
 peld_start_date = dt.date(2013, 10, 1)
@@ -66,8 +46,8 @@ rede_peld = get_or_create(S, Cruise, name=u'REDE PELD', platform_type=u'Estaçã
             # INSERTING STATION
 ptcabeca = get_or_create(S, Station, local_sea="Mar de Fora", spot_name=u"Ponta da Cabeça", 
                    start_date=tidbit.dates[0], start_time=tidbit.times[0],
-                   end_date=tidbit.dates[-1], end_time=tidbit.times[-1], local_depth=8., 
-                   lon=-42.0, lat=-23.1, capture_type='Sensor de Temperatura', 
+                   end_date=peld_end_date, end_time=None, local_depth=8., 
+                   lon=-42.0356, lat=-22.9780, capture_type='Sensor de Temperatura', 
                    cruise_id=rede_peld.id)
                 
                 # INSERTING OCEANOGRAPHIC PARAMETERS
@@ -76,5 +56,32 @@ print "\n\n Inserting tidbit data sample ....."
 for sample in range(len(tidbit.temps)):
     s = get_or_create(S, Oceanography, date=tidbit.dates[sample], time=tidbit.times[sample], 
                      depth=5., temp=tidbit.temps[sample], station_id=ptcabeca.id)
+
+
+
+
+
+# EXAMPLE OF BIOLOGICAL SHEET DATA INSERTION WORKFLOW
+enseada = DataSheet1('data_samples/enseada.xls')
+date, spot, station, temp, salt, oxig, fosfate, nitrate, amonium, silicate, chla = enseada.get_data()
+
+    # INSERTING PROJECT: for old data that has unknown info
+antigos = get_or_create(S, Project, name='ANTIGOS', institution_id=ieapm.id)
+
+for s in range(len(spot)):
+    for key, values in zip(spot_dict.keys(), spot_dict.values()):
+        for item in values:
+            if item == spot[s]:
+                lon = spot_dict[key][1]
+                lat = spot_dict[key][2]
+
+    st = get_or_create(S, Station, local_sea="Mar de Dentro", spot_name=spot[s], 
+                       name=str(station[s]), lon=lon, lat=lat, capture_type="Biology")
+
+    d = get_or_create(S, Oceanography, date=date[s], temp=temp[s], salt=salt[s], 
+                      chla=chla[s], oxigen=oxig[s], fosfate=fosfate[s], nitrate=nitrate[s], 
+                      amonium=amonium[s], silicate=silicate[s], station_id=st.id)
+
+
 
 S.session.commit()
