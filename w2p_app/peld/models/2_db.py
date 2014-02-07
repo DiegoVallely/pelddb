@@ -2,7 +2,8 @@
 # Define tables
 
 SeaPolygon = db.define_table("seapolygon",
-	Field("name"),
+	Field("name", 
+		requires=IS_NOT_EMPTY(error_message="Adicione um nome!")),
 	Field("poly", "geometry()"))
 
 # SeaPolygon.insert(poly=geoPolygon((1,1,2)))
@@ -128,3 +129,74 @@ Cruise = db.define_table("cruise",
 
 
 
+
+
+Institution = db.define_table("institution",
+	Field("name"),
+	format="%(name)s")
+
+Project = db.define_table("project",
+	Field("name"),
+	Field("institution_id", "reference institution")
+	format="%(name)s")
+
+Cruise = db.define_table("cruise",
+	Field("name"),
+	Field("platform_type"),
+	Field("start_date", "date"),
+	Field("end_date", "date"),
+	Field("institution_id", "reference institution"),
+	format="%(name)s")
+
+Station = db.define_table("station",
+	Field("local_sea", "string"),
+	Field("spot_name", "string"),
+	Field("_date", "date"),
+	Field("_time", "time"),
+	Field("lon", "double"),
+	Field("lat", "double"),
+	Field("capture_type", "string"),
+	Field("cruise_id", "reference cruise"))
+
+Oceanography = db.define_table("oceanography",
+	Field("_date", "date"),
+	Field("_time", "time"),
+	Field("_depth", "double"),
+	Field("temp", "double"),
+	Field("salt", "double"),
+	Field("chla", "double"),
+	Field("feofitina", "double"),
+	Field("primary_prod", "double"),
+	Field("bacterian_prod", "double"),
+	Field("bacterian_biomass", "double"),
+	Field("org_part_carbon", "double"),
+	Field("org_diss_carbon", "double"),
+	Field("station_id", "reference station"))
+
+Profile = db.define_table("profile",
+	Field("coord", "double"),
+	Field("_time", "time"),
+	Field("local_depth", "double"),
+	Field("origin_header", "string"),
+	Field("filename", "string"),
+	Field("created", "date"),
+	Field("station_id", "reference station"))
+
+ProfileData = db.define_table("profiledata",
+	Field("values_", "double"),
+	Field("depths", "double"),
+	Field("status"),
+	Field("variable_name", "string"),
+	Field("profile_id", "reference profile"))
+
+Organisms = db.define_table("organisms",
+	Field("name", requires=IS_NOT_EMPTY()),
+	Field("_family", "string"),
+	Field("description", "string"),
+	Field("station_id", "reference station"),
+	format="%(name)s")
+
+StomachContents = db.define_table("stomachcontents",
+	Field("contents"),
+	Field("organisms_id", "reference organisms"),
+	Field)

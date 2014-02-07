@@ -62,10 +62,10 @@ response.files.append(URL('static', 'css/web2py.css'))
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li class="active"><a href="{{=URL('index')}}">Home</a></li>
             <li><a href="#about">Sobre</a></li>
             <li><a href="#contact">Contato</a></li>
-            <li class="dropdown">
+<!--             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#">Action</a></li>
@@ -76,13 +76,12 @@ response.files.append(URL('static', 'css/web2py.css'))
                 <li><a href="#">Separated link</a></li>
                 <li><a href="#">One more separated link</a></li>
               </ul>
-            </li>
+            </li> -->
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="../navbar/">Default</a></li>
-            <li><a href="../navbar-static-top/">Static top</a></li>
-            <li class="active"><a href="./">Fixed top</a></li>
-            {{='auth' in globals() and auth.navbar(separators=(' ',' | ',' '))}}
+            <li><a href="{{=URL('user', args='login')}}">{{=T("Login")}}</a></li>
+            <li><a href="{{=URL('user', args='register')}}">{{=T("Register")}}</a></li>
+            <li><a href="{{=URL('user', args='request_reset_password')}}">{{=T("Lost Password")}}</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
