@@ -75,7 +75,4 @@ def login():
 
 
 def perfil():
-
-    sea_poly = SQLFORM.grid(SeaPolygon)
-
-    return dict(form=form)
+    return dict()
