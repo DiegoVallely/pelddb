@@ -14,7 +14,9 @@ import platform
 if platform.system() == 'Windows':
     engine = create_engine('postgresql://postgres:1234@localhost:5432/peldDB', echo=True)
 else:
-    engine = create_engine('postgresql://peld:nsnei0@localhost:5432/peldDB', echo=True)
+    engine = create_engine('postgresql://peld:h4ck3r@localhost:5432/peldDB', echo=True)
+    # rafa's DB:
+    # engine = create_engine('postgresql://peld:nsnei0@localhost:5432/peldDB', echo=True)
 
 Base = declarative_base()
 

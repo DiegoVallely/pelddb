@@ -18,8 +18,8 @@ from model import *
 
 import matplotlib.pyplot as plt
 import numpy as np
-from wx.lib.pubsub import setupkwargs
-from wx.lib.pubsub import pub as Publisher
+# from wx.lib.pubsub import setupkwargs
+# from wx.lib.pubsub import pub as Publisher
 
 import platform
 

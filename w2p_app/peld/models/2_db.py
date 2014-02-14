@@ -12,32 +12,48 @@ SeaPolygon = db.define_table("seapolygon",
 
 
 Institution = db.define_table("institution",
-    Field("name"),
-    # Field("biofile_id", "reference biofile"),
+    Field("name", unique=True),
     format="%(name)s")
 
+db.institution.name.requires = IS_NOT_IN_DB(db, "institution.name")
+
 Project = db.define_table("project",
-    Field("name"),
+    Field("name", unique=True),
     Field("institution_id", "reference institution"),
     format="%(name)s")
 
+db.project.name.requires = IS_NOT_IN_DB(db, "project.name")
+
 Cruise = db.define_table("cruise",
     Field("name"),
+    Field("platform_name"),
     Field("platform_type"),
     Field("start_date", "date"),
     Field("end_date", "date"),
     Field("institution_id", "reference institution"),
+    Field("project_id", "reference project"),
     format="%(name)s")
 
 Station = db.define_table("station",
     Field("local_sea", "string"),
     Field("spot_name", "string"),
-    Field("date_", "date"),
-    Field("time_", "time"),
+    Field("name"),
+    Field("start_date", "date"),
+    Field("end_date", "date"),
+    Field("start_time", "time"),
+    Field("end_time", "time"),
+    Field("local_depth", "double"),
     Field("lon", "double"),
     Field("lat", "double"),
     Field("capture_type", "string"),
-    Field("cruise_id", "reference cruise"))
+    Field("cruise_id", "reference cruise"),
+    format="%(name)s")
+    # Field("meteos", "reference meteorology"),
+    # Field("oceans", "reference oceanography"),
+    # Field("images", "reference image"),
+    # Field("profiles", "reference profile"),
+    # Field("organisms", "reference organisms"),
+    # Field("biometries", "reference ictiofaunabiometry"))
 
 Meteorology = db.define_table("meteorology",
     Field("wspd", "double"),
