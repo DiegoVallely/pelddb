@@ -29,6 +29,7 @@ auth.settings.login_after_registration = \
 	config.auth.settings.login_after_registration
 
 auth.settings.login_next = config.auth.settings.login_next
+auth.settings.login_next = config.auth.settings.login_next
 
 # auth.messages.registration_successful = \
 	# config.auth.messages.registration_successful

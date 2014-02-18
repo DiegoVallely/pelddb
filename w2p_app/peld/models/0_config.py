@@ -31,6 +31,7 @@ config.auth.settings.registration_requires_verification = False
 config.auth.settings.registration_requires_approval = False
 config.auth.settings.login_after_registration = False
 config.auth.settings.login_next = URL('perfil')
+config.auth.settings.register_next = URL('perfil')
 
 
 config.auth.settings.extra_fields.auth_user = [
