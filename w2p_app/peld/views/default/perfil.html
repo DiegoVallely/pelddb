@@ -1,13 +1,12 @@
 {{extend 'main.html'}}
 
 <style type="text/css">
+<!--
+
 #down_menu{
   padding: 60px;
 }
-</style>
 
-<style type="text/css">
-<!--
 #ajaxresults{
     background: #ffffff;
     padding: 5px 15px;
@@ -104,8 +103,32 @@ jQuery(document).ready(function(){
 	<br>
     {{=form}}
     <div id="ajaxresults"></div>
-    <br>
-    {{=result}}
+    {{if result != None:}}
+    <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Itens</div>
+      <div class="panel-body">  
+        <p>Instiuição e projetos relacionados</p>
+      </div>
+      <!-- Table -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Instituição</th>
+            <th>Projeto</th>
+          </tr>
+        </thead>
+        {{for row in result:}}
+        <tr>
+          <td><a href="{{=URL('datas', args=row.institution.id)}}">{{=row.institution.id}}</a></td>
+          <td>{{=row.institution.name}}</td>
+          <td>{{=row.project.name}}</td>
+        </tr>
+        {{pass}}
+      </table>
+    </div>
+    {{pass}}
 </div>
 
 

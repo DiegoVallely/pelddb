@@ -78,6 +78,7 @@ def login():
 
     return dict(form=form)
 
+
 @auth.requires_login()
 def perfil():
 
@@ -95,16 +96,19 @@ def perfil():
             [Institution.name.contains(k) | Project.name.contains(k) \
              for k in tokens])
         result = db(query).select(orderby=db.institution.name)
-    else:
-        result = DIV(T("Pesquise uma Instituição"),
-                    _class="alert alert-info")
+    # else:
+    #     result = DIV(T("Pesquise uma Instituição"),
+    #                 _class="alert alert-info")
 
     submit_button = form.elements(_type="submit")[0]
     submit_button["_class"] = "btn btn-primary"
 
+    inputext = form.elements(_type="text")[0]
+    inputext['_class'] = "form-control"
+
     return dict(form=form, result=result)
 
-
+@auth.requires_login()
 def ajaxlivesearch():
     tokens = request.vars.tokens if request.vars else None
     query = Institution.name.like('%'+tokens+'%')
@@ -119,3 +123,25 @@ def ajaxlivesearch():
                     _id="resultLiveSearch"))
 
     return TAG[''](*items)
+
+
+@auth.requires_login()
+def datas():
+
+    query = Oceanography.id > 0
+
+    next = 0
+    previuos = 0
+    if request.args(0) == 1:
+        next += len(db().select(Oceanography.ALL))
+        next_link = next/100.
+        order_next = len(db().select(Oceanography.ALL, limitby=(0,100)))
+    elif request.args(0) == -1:
+        previuos -= 1
+        previuos 
+
+    return locals()
+
+
+def advancedsearch():
+    return locals()
