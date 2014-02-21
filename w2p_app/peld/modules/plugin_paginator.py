@@ -10,13 +10,13 @@ import os
 APP = os.path.basename(os.path.dirname(os.path.dirname(__file__)))
 
 
-class Paginator(DIV):
+class Paginator(UL):
 
     def __init__(self, paginate=10, records=100,
                  renderstyle=False, page_var='page',
                  anchor="", extra_vars={}, **attributes):
-        DIV.__init__(self, **attributes)
-        self.attributes['_class'] = 'paginator'
+        UL.__init__(self, **attributes)
+        self.attributes['_class'] = 'pagination'
         self.paginate, self.records, self.page_var, self.anchor, self.extra_vars = (
             paginate, records, page_var, anchor, extra_vars
         )
@@ -28,6 +28,7 @@ class Paginator(DIV):
         
         if renderstyle:
             _url = URL(APP, 'static', 'plugin_paginator/paginator.css')
+            # _url = URL(APP, 'static', 'dist/css/bootstrap.css')
             if _url not in current.response.files:
                 current.response.files.append(_url)
             
@@ -102,7 +103,7 @@ class PaginateSelector(SPAN):
         self.paginate = int(current.request.get_vars.get(self.paginate_var, paginates[0]))
         
         self.messages = Messages(current.T)
-        self.messages.paginate = 'Paginate: '
+        self.messages.paginate = 'Mostrar: '
         self.messages.option = ''
         
     def _url(self, paginate):
@@ -126,7 +127,8 @@ class PaginateSelector(SPAN):
                               _value=_paginate) for _paginate in self.paginates]
             return SPAN(self.messages.paginate,
                         SELECT(options, value=self.paginate,
-                               _onchange='location.href="%s".replace("__paginate__", this.value)' % self._url('__paginate__')
+                               _onchange='location.href="%s".replace("__paginate__", this.value)' \
+                               % self._url('__paginate__')
                                
                                ), **self.attributes).xml()
         else:
@@ -143,8 +145,8 @@ class PaginateInfo(SPAN):
         )
         
         self.messages = Messages(current.T)
-        self.messages.display_without_span = 'Display: <b>%(total)s</b>'
-        self.messages.display_with_span = 'Display: <b>%(start)s - %(end)s</b> of <b>%(total)s</b>'
+        self.messages.display_without_span = 'Mostrando: <b>%(total)s</b>'
+        self.messages.display_with_span = 'Mostrando: <b>%(start)s - %(end)s</b> of <b>%(total)s</b>'
 
     def xml(self):
         if self.records <= self.paginate:

@@ -1,4 +1,10 @@
+ # -*- coding: utf-8 -*-
+from plugin_paginator import Paginator, PaginateSelector, PaginateInfo
+from gluon.contrib.populate import populate
 
+def call():
+    session.forget()
+    return service()
 
 def custom_button(form):
     # inputname = form.elements(_type="texto")[0]
@@ -42,11 +48,11 @@ def user():
     submit_button = forms.elements(_type="submit")[0]
     submit_button["_class"] = "btn btn-primary btn-block" 
 
-    # email_label = forms.elements("label")[0]
-    # email_label["_style"] = "display:none;"
+    email_label = forms.elements("label")[0]
+    email_label["_style"] = "display:none;"
 
-    # email_label2 = forms.elements("label")[1]
-    # email_label2["_style"] = "display:none;"
+    email_label2 = forms.elements("label")[1]
+    email_label2["_style"] = "display:none;"
 
     # email_label3 = forms.elements("label")[2]
     # # email_label3[""] = "Remember Me"
@@ -57,10 +63,10 @@ def user():
     #     form_style["_class"] = "form-signin"
 
 
-    # placemail = forms.elements(_type="text")[0]
-    # placemail["_placeholder"] = "Email"
-    # placepwd = forms.elements(_type="password")[0]
-    # placepwd["_placeholder"] = "Password"
+    placemail = forms.elements(_type="text")[0]
+    placemail["_placeholder"] = "Email"
+    placepwd = forms.elements(_type="password")[0]
+    placepwd["_placeholder"] = "Password"
 
     # register_button = forms.add_button(T('Register'), 
     #   URL(args='register', 
@@ -126,22 +132,68 @@ def ajaxlivesearch():
 
 
 @auth.requires_login()
-def datas():
+def ocean():
+    headers={'oceanography.id':'#','oceanography.dates':'Data', 
+            'oceanography.times':'Hora','oceanography.depths':'Profundidade', 
+            'oceanography.temperature':'Temperatura','oceanography.salt':'Salinidade',
+            'oceanography.chla':'CHLA','oceanography.feofitina':'Feofitina',
+            'oceanography.primary_prod':'Produção Primária',
+            'oceanography.bacterian_prod':'Produção Bacteriana',
+            'oceanography.bacterian_biomass':'Biomassa Bacteriana',
+            'oceanography.org_part_carbon':'Carbono Orgânico Particulado',
+            'oceanography.org_diss_carbon':'Carbono Orgânico Dissolvido',
+            'oceanography.oxigen':'Oxigênio','oceanography.fosfate':'Fosfato',
+            'oceanography.nitrate':'Nitrato','oceanography.amonium':'Amônia',
+            'oceanography.silicate':'Silicato'}
+    
+    args = request.args(0)
+    query = Oceanography
+    qry = db(query).select()
 
-    query = Oceanography.id > 0
+    datas = SQLFORM.grid(query=query, user_signature=True,
+            headers=headers, formstyle='divs', create=False, deletable=False,
+            editable=False)
+    
+    paginate_selector = PaginateSelector(anchor='main')
+    paginator = Paginator(paginate=paginate_selector.paginate, 
+                          extra_vars={'v':1}, anchor='main',
+                          renderstyle=True) 
+    paginator.records = db(query).count()
+    paginate_info = PaginateInfo(paginator.page, paginator.paginate, paginator.records)
+    
+    rows = db(query).select(limitby=paginator.limitby()) 
 
-    next = 0
-    previuos = 0
-    if request.args(0) == 1:
-        next += len(db().select(Oceanography.ALL))
-        next_link = next/100.
-        order_next = len(db().select(Oceanography.ALL, limitby=(0,100)))
-    elif request.args(0) == -1:
-        previuos -= 1
-        previuos 
 
     return locals()
 
+def projects():
+    args = request.args(0)
+    # query = db(Oceanography).select()
+    # datas = SQLFORM.grid(query=query, user_signature=True,
+    #         headers=headers, formstyle='divs', create=False, deletable=False,
+    #         editable=False)
+
+    # if request.args(0) == ''
+    query = Oceanography.station_id
+    
+    paginate_selector = PaginateSelector(anchor='main')
+    paginator = Paginator(paginate=paginate_selector.paginate, 
+                          extra_vars={'v':1}, anchor='main',
+                          renderstyle=True) 
+    paginator.records = db(query).count()
+    paginate_info = PaginateInfo(paginator.page, paginator.paginate, paginator.records)
+    
+    rows = db(query).select(limitby=paginator.limitby())
+
+    return locals()
 
 def advancedsearch():
+    return locals()
+
+
+def datainfo():
+    inf = request.args(0) or redirect(URL('datas'))
+    rows = Oceanography(Oceanography.id == inf)
+
+
     return locals()

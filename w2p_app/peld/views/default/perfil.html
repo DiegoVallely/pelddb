@@ -121,9 +121,9 @@ jQuery(document).ready(function(){
         </thead>
         {{for row in result:}}
         <tr>
-          <td><a href="{{=URL('datas', args=row.institution.id)}}">{{=row.institution.id}}</a></td>
-          <td>{{=row.institution.name}}</td>
-          <td>{{=row.project.name}}</td>
+          <td>{{=row.institution.id}}</a></td>
+          <td><a href="{{=URL('ocean', args=row.institution.name)}}">{{=row.institution.name}}</a></td>
+          <td><a href="{{=URL('projects', args=row.project.name)}}">{{=row.project.name}}</a></td>
         </tr>
         {{pass}}
       </table>

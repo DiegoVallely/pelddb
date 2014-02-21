@@ -82,7 +82,10 @@ Oceanography = db.define_table("oceanography",
     Field("nitrate", "double"),
     Field("amonium", "double"),
     Field("silicate", "double"),
-    Field("station_id", "reference station"))
+    Field("station_id", "reference station",
+        writable=False, readable=False),
+    Field("project_id", "reference project",
+        writable=False, readable=False))
 
 Profile = db.define_table("profile",
     Field("coord", "double"),

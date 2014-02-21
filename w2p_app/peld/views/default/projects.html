@@ -6,8 +6,13 @@
 }
 .scrollit{
     overflow:scroll;
-    height:100%;
+    height:50%;
 }
+.table a
+{
+    display:block;
+    text-decoration:none;
+    }
 </style>
 
 {{block menu}}
@@ -58,8 +63,9 @@
 	<div class="panel panel-default">
     	<!-- Default panel contents -->
 	    <div class="panel-heading">Itens</div>
-	      <div class="panel-body">  
-	        <p>...</p>
+	      <div class="panel-body">
+	        <p>Dados
+	        	Oceanográfico do Projeto {{=rows[0].station_id.cruise_id.project_id.name}}</p>
 	      </div>
 	      <!-- Table -->
 	      <div class="scrollit">
@@ -86,28 +92,35 @@
 	            <th>Silicato</th>
 	          </tr>
 	        </thead>
-	        {{for row in datas:}}
+	        {{for row in rows:}}
 	        <tr>
-	          <td>{{=row.id}}</td>
-	          <td>{{=row.dates}}</td>
-	          <td>{{=row.times}}</td>
-	          <td>{{=row.depths}}</td>
-	          <td>{{=row.temperature}}</td>
-	          <td>{{=row.salt}}</td>
-	          <td>{{=row.chla}}</td>
-	          <td>{{=row.feofitina}}</td>
-	          <td>{{=row.primary_prod}}</td>
-	          <td>{{=row.bacterian_prod}}</td>
-	          <td>{{=row.bacterian_biomass}}</td>
-	          <td>{{=row.org_part_carbon}}</td>
-	          <td>{{=row.oxigen}}</td>
-	          <td>{{=row.fosfate}}</td>
-	          <td>{{=row.nitrate}}</td>
-	          <td>{{=row.amonium}}</td>
-	          <td>{{=row.silicate}}</td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.id}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.dates}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.times}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.depths}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.temperature}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.salt}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.chla}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.feofitina}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.primary_prod}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.bacterian_prod}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.bacterian_biomass}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.org_part_carbon}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.oxigen}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.fosfate}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.nitrate}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.amonium}}</a></td>
+	          <td><a href="{{=URL('datainfo', args=row.id)}}">{{=row.silicate}}</a></td>
 	        </tr>
 	        {{pass}}
+
 	      </table>
 	  </div>
+		<div class="row">
+			<ul class="pager">
+			<div class="col-md-3">{{=paginate_info}}</div>
+		  	<div class="col-md-6">{{=paginator}}</div>
+		  <div class="col-md-3">{{=paginate_selector}}</div>
+		</div>
     </div>
 </div>
