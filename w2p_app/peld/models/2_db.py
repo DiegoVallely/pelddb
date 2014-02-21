@@ -8,19 +8,19 @@
 SeaPolygon = db.define_table("seapolygon",
     Field("name"),
     Field("poly", "geometry()"),
-    format="%(name)s")
+    format="%(name)s %(id)s")
 
 
 Institution = db.define_table("institution",
     Field("name", unique=True),
-    format="%(name)s")
+    format="%(name)s %(id)s")
 
 db.institution.name.requires = IS_NOT_IN_DB(db, "institution.name")
 
 Project = db.define_table("project",
     Field("name", unique=True),
     Field("institution_id", "reference institution"),
-    format="%(name)s")
+    format="%(name)s %(id)s")
 
 db.project.name.requires = IS_NOT_IN_DB(db, "project.name")
 
@@ -32,7 +32,7 @@ Cruise = db.define_table("cruise",
     Field("end_date", "date"),
     Field("institution_id", "reference institution"),
     Field("project_id", "reference project"),
-    format="%(name)s")
+    format="%(name)s %(id)s")
 
 Station = db.define_table("station",
     Field("local_sea", "string"),
@@ -47,7 +47,7 @@ Station = db.define_table("station",
     Field("lat", "double"),
     Field("capture_type", "string"),
     Field("cruise_id", "reference cruise"),
-    format="%(name)s")
+    format="%(name)s %(id)s")
     # Field("meteos", "reference meteorology"),
     # Field("oceans", "reference oceanography"),
     # Field("images", "reference image"),
@@ -108,12 +108,12 @@ Organisms = db.define_table("organisms",
     Field("familys", "string"),
     Field("description", "string"),
     Field("station_id", "reference station"),
-    format="%(name)s")
+    format="%(name)s %(id)s")
 
 StomachContents = db.define_table("stomachcontents",
     Field("contents"),
     Field("organisms_id", "reference organisms"),
-    format="%(contents)s")
+    format="%(contents)s %(id)s")
 
 IctiofaunaBiometry = db.define_table("ictiofaunabiometry",
     Field("weight", "double"),
